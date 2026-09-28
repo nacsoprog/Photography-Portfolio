@@ -1,0 +1,12 @@
+# Local tooling
+.venv/
+.DS_Store
+
+# Full-size originals (only the WebP files in assets/ are published)
+/Animal/
+/Astrophotography/
+/Buildings/
+/Cars/
+/Concert/
+/Motorcycle/
+/Nature/
