@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Lightbox
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxNote = document.getElementById('lightbox-note');
   const closeBtn = document.querySelector('.lightbox-close');
   const prevBtn = document.querySelector('.lightbox-prev');
   const nextBtn = document.querySelector('.lightbox-next');
@@ -43,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // If we are loading smaller images in masonry, we could swap to full res here.
     // Assuming the gallery images are already the high-res WebP versions based on the prompt.
     lightboxImg.setAttribute('src', src);
+    lightboxNote.hidden = !galleryImages[currentIndex].parentElement.querySelector('.device-note');
     lightbox.classList.add('active');
   }
 

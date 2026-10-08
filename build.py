@@ -16,6 +16,13 @@ def resize_image(image, max_size):
         return image.resize((new_width, new_height), Image.Resampling.LANCZOS)
     return image
 
+def taken_with_iphone(img, path):
+    """EXIF says Apple -> iPhone. If EXIF was stripped, fall back to the .jpeg extension."""
+    make = (img.getexif().get(271) or "").strip()
+    if make:
+        return make.lower() == "apple"
+    return path.suffix.lower() == ".jpeg"
+
 def main():
     root_dir = Path(".")
     assets_dir = root_dir / "assets"
@@ -54,6 +61,7 @@ def main():
             for i, img_path in enumerate(jpgs):
                 try:
                     with Image.open(img_path) as img:
+                        iphone = taken_with_iphone(img, img_path)
                         # Fix orientation
                         img = ImageOps.exif_transpose(img)
                         
@@ -73,7 +81,7 @@ def main():
                         gallery_img.save(output_path, "WEBP", quality=90)
                         
                         aspect = gallery_img.width / gallery_img.height
-                        webp_files.append({"filename": output_filename, "aspect": aspect})
+                        webp_files.append({"filename": output_filename, "aspect": aspect, "iphone": iphone})
                 except Exception as e:
                     print(f"Error processing {img_path}: {e}")
             
@@ -144,7 +152,7 @@ def main():
 """
 
     # Sort projects based on requested order
-    order = ['Cars', 'Astrophotography', 'Nature', 'Buildings', 'Motorcycle', 'Concert', 'Animal', 'Gaucho Garage Club']
+    order = ['Gaucho Garage Club', 'Cars', 'Astrophotography', 'Nature', 'Buildings', 'Motorcycle', 'Concert', 'Animal']
     order_map = {name: i for i, name in enumerate(order)}
     projects.sort(key=lambda p: order_map.get(p["name"], 999))
 
@@ -211,6 +219,7 @@ def main():
       </div>
       <div class="lightbox-content">
         <img src="" alt="" class="lightbox-img" id="lightbox-img">
+        <span class="device-note lightbox-note" id="lightbox-note">*taken with iPhone</span>
       </div>
     </div>
     """
@@ -231,9 +240,11 @@ def main():
         for col in columns:
             col_items = ""
             for img in col:
+                note = '<span class="device-note">*taken with iPhone</span>' if img['iphone'] else ''
                 col_items += f"""
                 <div class="masonry-item">
                   <img src="../assets/gallery/{p['slug']}/{img['filename']}" alt="Gallery image" loading="lazy" decoding="async">
+                  {note}
                 </div>
                 """
             masonry_columns_html += f'<div class="masonry-column">{col_items}</div>'

@@ -264,6 +264,32 @@ main {
 .masonry-item {
   cursor: zoom-in;
   display: block;
+  position: relative;
+}
+
+.device-note {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--white);
+  opacity: 0.75;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+}
+
+.masonry-item .device-note {
+  position: absolute;
+  left: 8px;
+  bottom: 6px;
+}
+
+.lightbox-note {
+  position: absolute;
+  left: 0;
+  bottom: -20px;
+}
+
+.lightbox-note[hidden] {
+  display: none;
 }
 
 .masonry-item img {
