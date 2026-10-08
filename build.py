@@ -144,7 +144,7 @@ def main():
 """
 
     # Sort projects based on requested order
-    order = ['Cars', 'Astrophotography', 'Nature', 'Buildings', 'Motorcycle', 'Concert', 'Animal']
+    order = ['Cars', 'Astrophotography', 'Nature', 'Buildings', 'Motorcycle', 'Concert', 'Animal', 'Gaucho Garage Club']
     order_map = {name: i for i, name in enumerate(order)}
     projects.sort(key=lambda p: order_map.get(p["name"], 999))
 
