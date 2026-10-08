@@ -1,0 +1,10 @@
+.git
+.gitignore
+.venv
+.DS_Store
+.wrangler
+node_modules
+build.py
+README.md
+wrangler.jsonc
+.assetsignore
